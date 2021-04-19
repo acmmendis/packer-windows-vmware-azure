@@ -1,0 +1,24 @@
+{
+    "az_client_id": "8465e9b9-a0c7-47b8-8413-26141238ba5c",
+    "az_client_secret": "eqeXbZ8rM9Jk6VIj~qP3gULrqv2zn8M~0a",
+    "az_tenant_id": "s34568d84-55e7-488a-9355-b1c900ce1e89",
+    "az_subscription_id": "100e8328-3739-45d8-8100-07147068668c",
+    "az_resource_group": "RG-GoldenImage",
+    "az_os_type": "Windows",
+    "az_image_publisher": "MicrosoftWindowsServer",
+    "az_image_sku": "2019-Datacenter",
+    "az_image_offer": "WindowsServer",
+    "az_location" : "East US",
+    "az_vm_size": "Standard_DS2_v2",
+    "az_managed_image": "Windows-Srv-2019",
+    "winrm_user": "Cluster-admin",
+
+    "PackageLocation": "",
+    "WorkingDirectory": "{{env `System_DefaultWorkingDirectory`}}",
+    
+    "pro_source1": "./windows/azure/AzSC_CCEv4_WindowsServer2016.ps1",
+    "pro_dest1": "C:\\DSC\\CIS_WindowsServer.ps1",
+    "pro_script1": "./windows/scripts/install-updates.ps1",
+    "pro_script2": "./windows/scripts/hardening.ps1",
+    "pro_script3": "./windows/scripts/cleanup.ps1"
+}

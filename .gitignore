@@ -1,0 +1,8 @@
+iso/
+output/
+linux/ansible/roles/
+**/packer_cache/
+**/facts_cache/
+packerlog.txt
+packer*.log
+notes.txt

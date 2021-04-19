@@ -1,0 +1,26 @@
+{
+    "vsphere_server": "vcenter.my.org",
+    "vsphere_template": "Windows-Srv-2016",
+    "vsphere_folder": "Templates",
+    "vsphere_dc": "DC",
+    "vsphere_cluster": "Cluster",
+    "vsphere_portgroup": "packer",
+    "vsphere_nic": "vmxnet3",
+    "vsphere_datastore": "store1",
+    "cpu_num": "4",
+    "mem_size": "8192",
+    "disk_size": "32768",
+    "guest_os": "windows8Server64Guest",
+    "vsphere_iso": "[Data-Store] ISOs/SW_DVD9_Win_Svr_STD_Core_and_DataCtr_Core_2016_64Bit_English_-3_MLF_X21-30350.ISO,[Data-Stor] ISOs/VMware-tools-windows.iso",
+    "vsphere_floppy": "./windows/winsrv2016/autounattend.xml,./windows/vmware/drivers/pvscsi64,./windows/vmware/drivers/vmxnet3,./windows/scripts/install-vm-tools.cmd",
+    "vsphere_notes": "VM Template created by Packer",
+
+
+    "pro_source1": "./windows/winsrv2016/CIS_WindowsServer2016_v110.ps1",
+    "pro_dest1": "C:\\DSC\\CIS_WindowsServer.ps1",
+
+    "pro_script0": "./windows/scripts/pre-shutdown.ps1",
+    "pro_script1": "./windows/scripts/install-updates.ps1",
+    "pro_script2": "./windows/scripts/hardening.ps1"
+
+}

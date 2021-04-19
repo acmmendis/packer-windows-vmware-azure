@@ -1,0 +1,116 @@
+{
+  "builders": [
+    {
+      "CPUs": "{{user `cpu_num`}}",
+      "RAM": "{{user `mem_size`}}",
+      "RAM_reserve_all": true,
+      "cluster": "{{user `vsphere_cluster`}}",
+      "communicator": "winrm",
+      "convert_to_template": "true",
+      "datacenter": "{{user `vsphere_dc`}}",
+      "datastore": "{{user `vsphere_datastore`}}",
+      "disk_controller_type": "pvscsi",
+      "floppy_files": "{{user `vsphere_floppy`}}",
+      "folder": "{{user `vsphere_folder`}}",
+      "guest_os_type": "{{user `guest_os`}}",
+      "insecure_connection": "true",
+      "ip_settle_timeout": "5m",
+      "ip_wait_timeout": "1h",
+      "iso_paths": "{{user `vsphere_iso`}}",
+      "network_adapters": [
+        {
+          "network": "{{user `vsphere_portgroup`}}",
+          "network_card": "{{user `vsphere_nic`}}"
+        }
+      ],
+      "notes": "{{user `vsphere_notes`}}",
+      "password": "{{user `vsphere_pass`}}",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1",
+      "shutdown_timeout": "2h",
+      "storage": [
+        {
+          "disk_size": "{{user `disk_size`}}",
+          "disk_thin_provisioned": false
+        }
+      ],
+      "type": "vsphere-iso",
+      "username": "{{user `vsphere_user`}}",
+      "vcenter_server": "{{user `vsphere_server`}}",
+      "vm_name": "{{user `vsphere_template`}}",
+      "winrm_password": "{{user `winrm_pass`}}",
+      "winrm_timeout": "2h",
+      "winrm_username": "{{user `winrm_user`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "destination": "{{user `pro_dest1`}}",
+      "source": "{{user `pro_source1`}}",
+      "type": "file"
+    },
+    {
+      "elevated_password": "{{user `winrm_pass`}}",
+      "elevated_user": "{{user `winrm_user`}}",
+      "environment_vars": [
+        "WinRMUser={{user `winrm_user`}}"
+      ],
+      "scripts": "{{user `pro_script0`}}",
+      "type": "powershell"
+    },
+    {
+      "elevated_password": "{{user `winrm_pass`}}",
+      "elevated_user": "{{user `winrm_user`}}",
+      "scripts": "{{user `pro_script1`}}",
+      "type": "powershell"
+    },
+    {
+      "restart_check_command": "powershell -command \"\u0026 {Write-Output 'restarted.'}\"",
+      "restart_timeout": "2h",
+      "type": "windows-restart"
+    },
+    {
+      "elevated_password": "{{user `winrm_pass`}}",
+      "elevated_user": "{{user `winrm_user`}}",
+      "environment_vars": [
+              "WinRMUser={{user `winrm_user`}}"
+      ],
+      "scripts": "{{user `pro_script2`}}",
+      "type": "powershell"
+    }
+  ],
+  "sensitive-variables": [
+    "vsphere_user",
+    "vsphere_pass",
+    "winrm_pass",
+    "winrm_user"
+  ],
+  "variables": {
+    "cpu_num": "",
+    "disk_size": "",
+    "guest_os": "",
+    "mem_size": "",
+    "post_datastore": "",
+    "post_dc": "",
+    "post_folder": "",
+    "post_host": "",
+    "pro_dest1": "",
+    "pro_script1": "",
+    "pro_script2": "",
+    "pro_source1": "",
+    "vsphere_cluster": "",
+    "vsphere_datastore": "",
+    "vsphere_dc": "",
+    "vsphere_floppy": "",
+    "vsphere_folder": "",
+    "vsphere_iso": "",
+    "vsphere_nic": "",
+    "vsphere_notes": "",
+    "vsphere_pass": "{{ vault `/automation/data/bamboo-plans/packer-windows/vmware` `vmw_pass`}}",
+    "vsphere_portgroup": "",
+    "vsphere_server": "",
+    "vsphere_template": "",
+    "vsphere_user": "{{ vault `/automation/data/bamboo-plans/packer-windows/vmware` `vmw_user`}}",
+    "winrm_pass": "{{ vault `/automation/data/bamboo-plans/packer-windows/temp` `pass`}}",
+    "winrm_user": "{{ vault `/automation/data/bamboo-plans/packer-windows/vmware` `winrm_user`}}"
+  }
+}

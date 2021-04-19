@@ -1,0 +1,95 @@
+{
+  "builders": [
+    {
+      "async_resourcegroup_delete": true,
+      "client_id": "{{user `az_client_id`}}",
+      "client_secret": "{{user `az_client_secret`}}",     
+      "communicator": "winrm",
+      "image_offer": "{{user `az_image_offer`}}",
+      "image_publisher": "{{user `az_image_publisher`}}", 
+      "image_sku": "{{user `az_image_sku`}}",
+      "location": "{{user `az_location`}}",
+      "managed_image_name": "{{user `az_managed_image`}}",
+      "managed_image_resource_group_name": "{{user `az_resource_group`}}",
+      "os_type": "{{user `az_os_type`}}",
+      "subscription_id": "{{user `az_subscription_id`}}",
+      "tenant_id": "{{user `az_tenant_id`}}",
+      "type": "azure-arm",
+      "vm_size": "{{user `az_vm_size`}}",
+      "winrm_insecure": "true",
+      "winrm_timeout": "2h",
+      "winrm_use_ssl": "true"
+    }
+  ],
+  "provisioners": [
+    {
+      "destination": "{{user `pro_dest1`}}",
+      "source": "{{user `pro_source1`}}",
+      "type": "file"
+    },
+    {
+      "elevated_password": "{{user `winrm_pass`}}",
+      "elevated_user": "{{user `winrm_user`}}",
+      "environment_vars": [
+        "WinRMUser={{user `winrm_user`}}"
+      ],
+      "scripts": "{{user `pro_script0`}}",
+      "type": "powershell"
+    },
+    {
+      "elevated_password": "{{user `winrm_pass`}}",
+      "elevated_user": "{{user `winrm_user`}}",
+      "scripts": "{{user `pro_script1`}}",
+      "type": "powershell"
+    },
+    {
+      "restart_check_command": "powershell -command \"\u0026 {Write-Output 'restarted.'}\"",
+      "restart_timeout": "2h",
+      "type": "windows-restart"
+    },
+    {
+      "elevated_password": "{{user `winrm_pass`}}",
+      "elevated_user": "{{user `winrm_user`}}",
+      "environment_vars": [
+              "WinRMUser={{user `winrm_user`}}"
+      ],
+      "scripts": "{{user `pro_script2`}}",
+      "type": "powershell"
+    },
+    {
+      "inline": [
+        "if( Test-Path $Env:SystemRoot\\windows\\system32\\Sysprep\\unattend.xml ){ rm $Env:SystemRoot\\windows\\system32\\Sysprep\\unattend.xml -Force}",
+        "\u0026 $Env:SystemRoot\\System32\\Sysprep\\Sysprep.exe /oobe /generalize /shutdown /quiet"
+      ],
+      "type": "powershell"
+    }
+  ],
+  "sensitive-variables": [
+    "admin_user",
+    "admin_pass",
+    "winrm_pass",
+    "winrm_user"
+  ],
+  "variables": {
+    "PackageLocation": "",
+    "WorkingDirectory": "",
+    "az_client_id": "{{ vault `/automation/data/packer-windows/azure` `az_client_id`}}",
+    "az_client_secret": "{{ vault `/automation/data/packer-windows/azure` `az_client_secret`}}",
+    "az_image_offer": "",
+    "az_image_publisher": "",
+    "az_image_sku": "",
+    "az_location": "",
+    "az_managed_image": "",
+    "az_os_type": "",
+    "az_resource_group": "",
+    "az_subscription_id": "{{ vault `/automation/data/packer-windows/azure` `az_subs_id`}}",
+    "az_tenant_id": "{{ vault `/automation/data/packer-windows/azure` `az_tenant_id`}}",
+    "az_vm_size": "",
+    "pro_dest1": "",
+    "pro_script1": "",
+    "pro_script2": "",
+    "pro_source1": "",
+    "winrm_pass": "{{ vault `/automation/data/bamboo-plans/packer-windows/temp` `pass`}}",
+    "winrm_user": "{{ vault `/automation/data/bamboo-plans/packer-windows/azure` `winrm_user`}}"
+  }
+}
